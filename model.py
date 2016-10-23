@@ -1,6 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-# from server import app
-
 
 
 db = SQLAlchemy()
@@ -8,9 +6,9 @@ db = SQLAlchemy()
 
 ######################
 
-assocation_table = Table('association', Base.metadata, 
-            Column('testimonial_id', Integer, ForeignKey('testimonials.id')),
-            Column('instructor_id', Integer, ForeignKey('instructors.id')))
+# assocation_table = db.Table('association', db.metadata, 
+#             db.Column('testimonial_id', db.Integer, db.ForeignKey('testimonials.id')),
+#             db.Column('instructor_id', db.Integer, db.ForeignKey('instructors.id')))
 
 class Instructor(db.Model):
     """Instructor table model"""
@@ -34,12 +32,43 @@ class Testimonial(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     testimonial_text = db.Column(db.Text, nullable=False)
-    subjects = relationship('Instructor', secondary=assocation_table)
+    subjects = db.relationship('Instructor', secondary=assocation_table)
 
     def __repr__(self):
         """Produce helpful representation of object"""
 
         return '<Testimonial {}>'.format(self.id)
+
+class Course(db.Model):
+    pass
+
+class CourseCategory(db.Model):
+    pass
+
+class InstructorCourse(db.Model):
+    pass
+
+class Staff(db.Model):
+    pass
+
+class Activity(db.Model):
+    pass
+
+class General(db.Model):
+    pass
+
+class TestimonialSubject(db.Model):
+    pass
+
+    __tablename__ = 'test_subjs'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    test_id = db.Column(db.Integer, db.ForeignKey)
+    subj_id = db.Column(db.Integer)
+
+
+class Source(db.Model):
+    pass
 
 
 
@@ -58,4 +87,5 @@ if __name__ == "__main__":
 
     from server import app
     connect_to_db(app)
+    db.create_all()
     print "Connected to DB."
